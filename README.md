@@ -18,6 +18,8 @@ Build using
 ### Run 
 ``` ./server.sh ```
 
+``` open localhost:8080/revolut/swagger ``` 
+
 ### Test
 ``` mvn clean test```
 

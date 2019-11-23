@@ -2,6 +2,7 @@ package com.faizan.revolut.webservices.rest;
 
 import com.faizan.revolut.exceptions.InvalidAccountException;
 import com.faizan.revolut.server.logic.AccountsLogicHelper;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Api("/accounts")
 @Path("/accounts")
 public class AccountHandler {
     private static final Logger logger = LoggerFactory.getLogger(AccountHandler.class);

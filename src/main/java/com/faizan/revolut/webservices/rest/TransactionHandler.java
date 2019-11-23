@@ -4,6 +4,7 @@ import com.faizan.revolut.exceptions.InvalidAccountException;
 import com.faizan.revolut.exceptions.InvalidTransactionException;
 import com.faizan.revolut.models.incoming.TransferDetails;
 import com.faizan.revolut.server.logic.TransactionLogicHelper;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Api("transaction")
 @Path("transaction")
 public class TransactionHandler {
     private static final Logger logger = LoggerFactory.getLogger(TransactionHandler.class);

@@ -29,8 +29,8 @@ logging:
     - type: file
       threshold: DEBUG
       logFormat: "%-6level [%date{HH:mm:ss.SSS, Asia/Calcutta}] [%X{requestId}] [%t] %logger{5} - %X{code} %msg {%mdc} %n"
-      currentLogFilename: ${HOME:-/Users/faizan/Documents/personal/Revolut/moneytransfer}/logs/application.log
-      archivedLogFilenamePattern: ${HOME:-/Users/faizan/Documents/personal/Revolut/moneytransfer}/logs/application-%d{yyyy-MM-dd}-%i.log.gz
+      currentLogFilename: /Users/faizan/Documents/personal/Revolut/moneytransfer/logs/application.log
+      archivedLogFilenamePattern: /Users/faizan/Documents/personal/Revolut/moneytransfer/logs/application-%d{yyyy-MM-dd}-%i.log.gz
       archivedFileCount: 50
       timeZone: Asia/Calcutta
       maxFileSize: 50MB
