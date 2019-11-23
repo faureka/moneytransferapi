@@ -22,7 +22,7 @@ Build using
 
 ### Test
 ``` mvn clean test```
+Currently the project at 100% class coverage and 90% lines coverage 
 
 ##### TODO
 * Add pagination to all calls
-* Increase test coverage

@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+    <title>Coverage Report :: MoneyTransfer</title>
+    <style type="text/css">
+    @import "../../.css/coverage.css";
+
+    </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+    <div class="breadCrumbs">
+        [ <a href="../../index.html">all classes</a> ]
+        [ <a href="../index.html">com.faizan.revolut</a> ]
+    </div>
+
+    <h1>Coverage Summary for Class: MoneyTransfer (com.faizan.revolut)</h1>
+
+    <table class="coverageStats">
+
+        <tr>
+            <th class="name">Class</th>
+            <th class="coverageStat
+">
+                Method, %
+            </th>
+            <th class="coverageStat
+">
+                Line, %
+            </th>
+        </tr>
+        <tr>
+            <td class="name">MoneyTransfer</td>
+            <td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+                <span class="absValue">
+    (4/ 5)
+  </span>
+            </td>
+            <td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+                <span class="absValue">
+    (8/ 10)
+  </span>
+            </td>
+        </tr>
+        <tr>
+            <td class="name">MoneyTransfer$1</td>
+            <td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+                <span class="absValue">
+    (2/ 2)
+  </span>
+            </td>
+            <td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+                <span class="absValue">
+    (2/ 2)
+  </span>
+            </td>
+        </tr>
+        <tr>
+            <td class="name"><strong>total</strong></td>
+            <td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+                <span class="absValue">
+    (6/ 7)
+  </span>
+            </td>
+            <td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+                <span class="absValue">
+    (10/ 12)
+  </span>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+    <br/>
+
+
+    <div class="sourceCode"><i>1</i>&nbsp;package com.faizan.revolut;
+        <i>2</i>&nbsp;
+        <i>3</i>&nbsp;import com.faizan.revolut.server.logic.config.RevolutConfig;
+        <i>4</i>&nbsp;import com.fasterxml.jackson.annotation.JsonInclude.Include;
+        <i>5</i>&nbsp;import io.dropwizard.Application;
+        <i>6</i>&nbsp;import io.dropwizard.setup.Bootstrap;
+        <i>7</i>&nbsp;import io.dropwizard.setup.Environment;
+        <i>8</i>&nbsp;import io.federecio.dropwizard.swagger.SwaggerBundle;
+        <i>9</i>&nbsp;import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+        <i>10</i>&nbsp;
+        <b class="fc"><i>11</i>&nbsp;public class MoneyTransfer extends Application&lt;RevolutConfig&gt; {</b>
+        <i>12</i>&nbsp; private static final String REST_RESOURCE_PKG = &quot;com.faizan.revolut.webservices.rest&quot;;
+        <i>13</i>&nbsp;
+        <i>14</i>&nbsp; public static void main(String[] args) throws Exception {
+        <b class="nc"><i>15</i>&nbsp; new MoneyTransfer().run(args);</b>
+        <b class="nc"><i>16</i>&nbsp; }</b>
+        <i>17</i>&nbsp;
+        <i>18</i>&nbsp; @Override
+        <i>19</i>&nbsp; public void initialize(Bootstrap&lt;RevolutConfig&gt; bootstrap) {
+        <b class="fc"><i>20</i>&nbsp; bootstrap.addBundle(new SwaggerBundle&lt;RevolutConfig&gt;() {</b>
+        <i>21</i>&nbsp; @Override
+        <i>22</i>&nbsp; protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(RevolutConfig configuration)
+        {
+        <b class="fc"><i>23</i>&nbsp; return configuration.getSwaggerBundleConfiguration();</b>
+        <i>24</i>&nbsp; }
+        <i>25</i>&nbsp; });
+        <b class="fc"><i>26</i>&nbsp; }</b>
+        <i>27</i>&nbsp;
+        <i>28</i>&nbsp; @Override
+        <i>29</i>&nbsp; public void run(RevolutConfig configuration, Environment environment) throws Exception {
+        <b class="fc"><i>30</i>&nbsp; environment.getObjectMapper().setSerializationInclusion(Include.ALWAYS);</b>
+        <b class="fc"><i>31</i>&nbsp; environment.jersey().packages(REST_RESOURCE_PKG);</b>
+        <b class="fc"><i>32</i>&nbsp; environment.lifecycle().manage(new BootstrapService());</b>
+        <b class="fc"><i>33</i>&nbsp; }</b>
+        <i>34</i>&nbsp;
+        <i>35</i>&nbsp; @Override
+        <i>36</i>&nbsp; public String getName() {
+        <b class="fc"><i>37</i>&nbsp; return &quot;REVOLUT&quot;;</b>
+        <i>38</i>&nbsp; }
+        <i>39</i>&nbsp;}
+    </div>
+</div>
+
+<div class="footer">
+
+    <div style="float:right;">generated on 2019-11-24 01:21</div>
+</div>
+</body>
+</html>

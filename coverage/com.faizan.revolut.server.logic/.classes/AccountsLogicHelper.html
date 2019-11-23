@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+    <title>Coverage Report :: AccountsLogicHelper</title>
+    <style type="text/css">
+    @import "../../.css/coverage.css";
+
+    </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+    <div class="breadCrumbs">
+        [ <a href="../../index.html">all classes</a> ]
+        [ <a href="../index.html">com.faizan.revolut.server.logic</a> ]
+    </div>
+
+    <h1>Coverage Summary for Class: AccountsLogicHelper (com.faizan.revolut.server.logic)</h1>
+
+    <table class="coverageStats">
+
+        <tr>
+            <th class="name">Class</th>
+            <th class="coverageStat
+">
+                Method, %
+            </th>
+            <th class="coverageStat
+">
+                Line, %
+            </th>
+        </tr>
+        <tr>
+            <td class="name">AccountsLogicHelper</td>
+            <td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+                <span class="absValue">
+    (5/ 7)
+  </span>
+            </td>
+            <td class="coverageStat">
+  <span class="percent">
+    85%
+  </span>
+                <span class="absValue">
+    (17/ 20)
+  </span>
+            </td>
+        </tr>
+        <tr>
+            <td class="name">AccountsLogicHelper$MockitoMock$1223749011</td>
+        </tr>
+        <tr>
+            <td class="name">AccountsLogicHelper$MockitoMock$1223749011$auxiliary$qSShnejx</td>
+        </tr>
+        <tr>
+            <td class="name">AccountsLogicHelper$MockitoMock$1223749011$auxiliary$X8AWXm2q</td>
+        </tr>
+        <tr>
+            <td class="name">AccountsLogicHelper$MockitoMock$502445757</td>
+        </tr>
+        <tr>
+            <td class="name">AccountsLogicHelper$MockitoMock$502445757$auxiliary$Kb52R8CS</td>
+        </tr>
+        <tr>
+            <td class="name">AccountsLogicHelper$MockitoMock$502445757$auxiliary$se74S7XT</td>
+        </tr>
+        <tr>
+            <td class="name"><strong>total</strong></td>
+            <td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+                <span class="absValue">
+    (5/ 7)
+  </span>
+            </td>
+            <td class="coverageStat">
+  <span class="percent">
+    85%
+  </span>
+                <span class="absValue">
+    (17/ 20)
+  </span>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+    <br/>
+
+
+    <div class="sourceCode"><i>1</i>&nbsp;package com.faizan.revolut.server.logic;
+        <i>2</i>&nbsp;
+        <i>3</i>&nbsp;import com.faizan.revolut.exceptions.InvalidAccountException;
+        <i>4</i>&nbsp;import com.faizan.revolut.models.AccountDetails;
+        <i>5</i>&nbsp;import com.faizan.revolut.models.Balance;
+        <i>6</i>&nbsp;import com.faizan.revolut.models.Person;
+        <i>7</i>&nbsp;import com.google.gson.Gson;
+        <i>8</i>&nbsp;import org.slf4j.Logger;
+        <i>9</i>&nbsp;import org.slf4j.LoggerFactory;
+        <i>10</i>&nbsp;
+        <i>11</i>&nbsp;import java.math.BigDecimal;
+        <i>12</i>&nbsp;import java.util.ArrayList;
+        <i>13</i>&nbsp;import java.util.List;
+        <i>14</i>&nbsp;import java.util.concurrent.ConcurrentHashMap;
+        <i>15</i>&nbsp;import java.util.concurrent.ConcurrentMap;
+        <i>16</i>&nbsp;
+        <b class="nc"><i>17</i>&nbsp;public class AccountsLogicHelper {</b>
+        <b class="fc"><i>18</i>&nbsp; private static final Logger logger =
+            LoggerFactory.getLogger(AccountsLogicHelper.class);</b>
+        <b class="fc"><i>19</i>&nbsp; private static final BigDecimal INITIAL_BALANCE =
+            BigDecimal.valueOf(100_000_000.00d);</b>
+        <b class="fc"><i>20</i>&nbsp; private static final ConcurrentMap&lt;Long, AccountDetails&gt; accounts = new
+            ConcurrentHashMap&lt;&gt;();</b>
+        <i>21</i>&nbsp;
+        <i>22</i>&nbsp; public static void bootstrapAccounts() {
+        <b class="fc"><i>23</i>&nbsp; Person debitParty = new Person(&quot;RevolutDebit&quot;);</b>
+        <b class="fc"><i>24</i>&nbsp; Long debitAccountNumber = 865930402721L;</b>
+        <b class="fc"><i>25</i>&nbsp; AccountDetails debit = AccountDetails.makeAccount(debitAccountNumber, debitParty,
+            INITIAL_BALANCE);</b>
+        <b class="fc"><i>26</i>&nbsp; accounts.put(debitAccountNumber, debit);</b>
+        <b class="fc"><i>27</i>&nbsp; Person creditParty = new Person(&quot;RevolutCredit&quot;);</b>
+        <b class="fc"><i>28</i>&nbsp; Long creditAccountNumber = 993646631090L;</b>
+        <b class="fc"><i>29</i>&nbsp; AccountDetails credit = AccountDetails.makeAccount(creditAccountNumber,
+            creditParty, INITIAL_BALANCE);</b>
+        <b class="fc"><i>30</i>&nbsp; accounts.put(creditAccountNumber, credit);</b>
+        <b class="fc"><i>31</i>&nbsp; }</b>
+        <i>32</i>&nbsp;
+        <i>33</i>&nbsp; public static AccountDetails getById(Long id) throws InvalidAccountException {
+        <b class="fc"><i>34</i>&nbsp; if (!accounts.containsKey(id)) {</b>
+        <b class="fc"><i>35</i>&nbsp; throw new InvalidAccountException();</b>
+        <i>36</i>&nbsp; }
+        <i>37</i>&nbsp;
+        <b class="fc"><i>38</i>&nbsp; return accounts.get(id);</b>
+        <i>39</i>&nbsp; }
+        <i>40</i>&nbsp;
+        <i>41</i>&nbsp; public static List&lt;AccountDetails&gt; getAll() {
+        <b class="fc"><i>42</i>&nbsp; return new ArrayList&lt;&gt;(accounts.values());</b>
+        <i>43</i>&nbsp; }
+        <i>44</i>&nbsp;
+        <i>45</i>&nbsp; public static String getBalanceById(Long accountNumber) throws InvalidAccountException {
+        <b class="nc"><i>46</i>&nbsp; AccountDetails account = AccountsLogicHelper.getById(accountNumber);</b>
+        <b class="nc"><i>47</i>&nbsp; return new Gson().toJson(new Balance(account.getBalance()));</b>
+        <i>48</i>&nbsp; }
+        <i>49</i>&nbsp;
+        <i>50</i>&nbsp; public static int size() {
+        <b class="fc"><i>51</i>&nbsp; return accounts.size();</b>
+        <i>52</i>&nbsp; }
+        <i>53</i>&nbsp;}
+    </div>
+</div>
+
+<div class="footer">
+
+    <div style="float:right;">generated on 2019-11-24 01:21</div>
+</div>
+</body>
+</html>

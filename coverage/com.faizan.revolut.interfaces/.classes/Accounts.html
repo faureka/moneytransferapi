@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+    <title>Coverage Report :: Accounts</title>
+    <style type="text/css">
+    @import "../../.css/coverage.css";
+
+    </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+    <div class="breadCrumbs">
+        [ <a href="../../index.html">all classes</a> ]
+        [ <a href="../index.html">com.faizan.revolut.interfaces</a> ]
+    </div>
+
+    <h1>Coverage Summary for Class: Accounts (com.faizan.revolut.interfaces)</h1>
+
+    <table class="coverageStats">
+        <tr>
+            <th class="name">Class</th>
+        </tr>
+        <tr>
+            <td class="name">Accounts</td>
+        </tr>
+
+    </table>
+
+    <br/>
+    <br/>
+
+
+    <div class="sourceCode"><i>1</i>&nbsp;package com.faizan.revolut.interfaces;
+        <i>2</i>&nbsp;
+        <i>3</i>&nbsp;import java.math.BigDecimal;
+        <i>4</i>&nbsp;import java.util.concurrent.locks.Lock;
+        <i>5</i>&nbsp;
+        <i>6</i>&nbsp;public interface Accounts {
+        <i>7</i>&nbsp;
+        <i>8</i>&nbsp; Long getNumber();
+        <i>9</i>&nbsp;
+        <i>10</i>&nbsp; BigDecimal getBalance();
+        <i>11</i>&nbsp;
+        <i>12</i>&nbsp; boolean debit(BigDecimal amount);
+        <i>13</i>&nbsp;
+        <i>14</i>&nbsp; boolean credit(BigDecimal amount);
+        <i>15</i>&nbsp;
+        <i>16</i>&nbsp; Party getHolder();
+        <i>17</i>&nbsp;
+        <i>18</i>&nbsp; Lock writeLock();
+        <i>19</i>&nbsp;}
+    </div>
+</div>
+
+<div class="footer">
+
+    <div style="float:right;">generated on 2019-11-24 01:21</div>
+</div>
+</body>
+</html>
