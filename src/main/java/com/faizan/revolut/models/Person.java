@@ -3,6 +3,8 @@ package com.faizan.revolut.models;
 import com.faizan.revolut.interfaces.Party;
 
 public class Person implements Party {
+    public Person() {
+    }
 
     private String name;
 

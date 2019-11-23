@@ -1,7 +1,6 @@
 package com.faizan.revolut.server.logic;
 
 import com.faizan.revolut.exceptions.InvalidAccountException;
-import com.faizan.revolut.interfaces.Party;
 import com.faizan.revolut.models.AccountDetails;
 import com.faizan.revolut.models.Balance;
 import com.faizan.revolut.models.Person;
@@ -21,11 +20,11 @@ public class AccountsLogicHelper {
     private static final ConcurrentMap<Long, AccountDetails> accounts = new ConcurrentHashMap<>();
 
     public static void bootstrapAccounts() {
-        Party debitParty = new Person("RevolutDebit");
+        Person debitParty = new Person("RevolutDebit");
         Long debitAccountNumber = 865930402721L;
         AccountDetails debit = AccountDetails.makeAccount(debitAccountNumber, debitParty, INITIAL_BALANCE);
         accounts.put(debitAccountNumber, debit);
-        Party creditParty = new Person("RevolutCredit");
+        Person creditParty = new Person("RevolutCredit");
         Long creditAccountNumber = 993646631090L;
         AccountDetails credit = AccountDetails.makeAccount(creditAccountNumber, creditParty, INITIAL_BALANCE);
         accounts.put(creditAccountNumber, credit);

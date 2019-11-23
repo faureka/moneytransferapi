@@ -16,4 +16,8 @@ public class TransferDetailsFixture {
     public static TransferDetails getInvalid() {
         return new TransferDetails(debitAccountId, null, amount);
     }
+
+    public static TransferDetails getActualDetails() {
+        return new TransferDetails(865930402721L, 993646631090L, BigDecimal.TEN);
+    }
 }

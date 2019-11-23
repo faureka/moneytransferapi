@@ -14,13 +14,18 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class AbstractAccountDetails implements Accounts {
+
+    private Person holder;
+
     private static final Logger logger = LoggerFactory.getLogger(AbstractAccountDetails.class);
     private Long number;
-    private Party holder;
+
+    public AbstractAccountDetails() {
+    }
     private BigDecimal balance;
     private transient Lock lock;
 
-    AbstractAccountDetails(Long number, Party holder, BigDecimal balance) {
+    AbstractAccountDetails(Long number, Person holder, BigDecimal balance) {
         this.number = number;
         this.holder = holder;
         this.balance = balance;

@@ -1,7 +1,6 @@
 package com.faizan.revolut.fixtures;
 
 import com.faizan.revolut.constants.Constants;
-import com.faizan.revolut.interfaces.Party;
 import com.faizan.revolut.models.AccountDetails;
 import com.faizan.revolut.models.Balance;
 import com.faizan.revolut.models.Person;
@@ -17,18 +16,18 @@ public class AccountDetailsFixture {
     public static List<AccountDetails> all = getAll();
     public static String debitBalance = new Gson().toJson(new Balance(debit.getBalance()));
 
-    private Party holder = new Person("Revolut");
+    private Person holder = new Person("Revolut");
     private Long accountNumber = 315457352686L;
     private AccountDetails accountDetails = AccountDetails.makeAccountWithDefaultBalance(accountNumber, holder);
 
     public static AccountDetails getDebit() {
-        Party debitParty = new Person("RevolutDebit");
+        Person debitParty = new Person("RevolutDebit");
         Long debitAccountNumber = 865930402721L;
         return new AccountDetails(debitAccountNumber, debitParty, Constants.MIN_BALANCE);
     }
 
     public static AccountDetails getCredit() {
-        Party creditParty = new Person("RevolutCredit");
+        Person creditParty = new Person("RevolutCredit");
         Long creditAccountNumber = 993646631090L;
         return new AccountDetails(creditAccountNumber, creditParty, Constants.MIN_BALANCE);
     }

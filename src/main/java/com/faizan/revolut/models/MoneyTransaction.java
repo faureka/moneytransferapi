@@ -15,11 +15,14 @@ import java.util.concurrent.locks.Lock;
 public class MoneyTransaction implements Transaction {
     private static final Logger logger = LoggerFactory.getLogger(MoneyTransaction.class);
 
-    private final Long id;
-    private final AccountDetails debit;
-    private final AccountDetails credit;
-    private final BigDecimal amount;
+    private Long id;
+    private AccountDetails debit;
+    private AccountDetails credit;
+    private BigDecimal amount;
     private TransactionState state;
+
+    public MoneyTransaction() {
+    }
 
     private MoneyTransaction(Long id, AccountDetails debit, AccountDetails credit, BigDecimal amount)
             throws InvalidTransactionException {

@@ -1,7 +1,6 @@
 package com.faizan.revolut.models;
 
 import com.faizan.revolut.fixtures.AccountDetailsFixture;
-import com.faizan.revolut.interfaces.Party;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,7 +10,7 @@ import java.math.BigDecimal;
 
 public class AccountDetailsTest {
 
-    private Party holder;
+    private Person holder;
     private AccountDetails accountDetails;
     private AccountDetailsFixture fixture;
 
