@@ -1,0 +1,40 @@
+server:
+  rootPath: /revolut
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+    com.faizan.revolut:
+      level: DEBUG
+
+    io.dropwizard:
+      level: DEBUG
+
+  appenders:
+    - type: console
+      timeZone: Asia/Calcutta
+      threshold: DEBUG
+    - type: file
+      threshold: DEBUG
+      logFormat: "%-6level [%date{HH:mm:ss.SSS, Asia/Calcutta}] [%X{requestId}] [%t] %logger{5} - %X{code} %msg {%mdc} %n"
+      currentLogFilename: ${HOME:-/Users/faizan/Documents/personal/Revolut/moneytransfer}/logs/application.log
+      archivedLogFilenamePattern: ${HOME:-/Users/faizan/Documents/personal/Revolut/moneytransfer}/logs/application-%d{yyyy-MM-dd}-%i.log.gz
+      archivedFileCount: 50
+      timeZone: Asia/Calcutta
+      maxFileSize: 50MB
+
+swagger:
+  uriPrefix: /revolut
+  resourcePackage: com.faizan.revolut.webservices.rest
