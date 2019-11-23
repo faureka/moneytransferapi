@@ -1,0 +1,167 @@
+#!/bin/bash
+
+warn() {
+        echo "${PROGNAME}: $*" 2>&1
+}
+
+die() {
+        warn "$@"
+        exit 1
+}
+usage() {
+        die "usage: $0 start -j JAR -s JVM_SID -c CONF | stop -s JVM_SID | status -s JVM_SID  | restart -j JAR -s JVM_SID -c CONF | kill -s JVM_SID "
+}
+
+ARGS=${@:2}
+CMD="$1"
+
+if [ "$CMD" == "" ]; then
+        usage
+fi
+
+# Parsing short options
+while getopts ":j:c:s:" opt $ARGS; do
+        case $opt in
+                j) JAR=$OPTARG ;;
+                c) CONF=$OPTARG ;;
+                s) JVM_SID=$OPTARG ;;
+        esac
+done
+
+PROGNAME=$(basename "$0")
+
+# required JVM_SID
+if [ "$JVM_SID" == "" ]; then
+        die "JVM_SID is not set with -s option"
+fi
+
+if [[ $EUID -eq 0 ]]; then
+        die "Do not run this script as root"
+fi
+
+
+doStart() {
+
+        isRunningJvm "${JVM_SID}"
+        if [ $? -eq 0 ]; then
+                die "JVM ${JVM_SID} is running with pid ${JVM_PID}"
+        fi
+        if [ "$JAR" == "" ]; then
+                die "Requires jar file using option -j"
+        fi
+        if [ ! -f "$JAR" ]; then
+                die "Jar File $JAR not found!"
+        fi
+        if [ ! -f "$CONF" ]; then
+                die "Config File $CONFIG not found!"
+        fi
+        if [ "$JAVA_OPTS" == "" ]; then
+                JAVA_OPTS="-server -Xms1G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:ParallelGCThreads=8 -XX:ConcGCThreads=2 -XX:InitiatingHeapOccupancyPercent=50 -XX:+HeapDumpOnOutOfMemoryError -verbose:gc -XX:+PrintGCDetails -Xloggc:$HOME/logs/memory-${JVM_SID}.log -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:-OmitStackTraceInFastThrow"
+        fi
+
+        echo "Running $CMD using jar $JAR and config file $CONF from $(pwd)"
+        echo "nohup $JAVA_HOME/bin/java -DJVM_SID=${JVM_SID} $JAVA_OPTS -jar $JAR server $CONF >> ~/logs/std.out 2>&1 &"
+        nohup "$JAVA_HOME/bin/java" -DJVM_SID="${JVM_SID}" $JAVA_OPTS -jar "$JAR" server "$CONF" >> ~/logs/std.out 2>&1 &
+
+        RC_NOHUP=$?
+        if [ ${RC_NOHUP} -eq 0 ]; then
+                exit 0
+        else
+                exit 1
+        fi
+}
+
+doStop() {
+
+        isRunningJvm "${JVM_SID}"
+        if [ $? -eq 1 ]; then
+                die "JVM ${JVM_SID} not found"
+        fi
+
+        if [ "$STOP_TIMEOUT" != "" ]; then
+                TIMEOUT=$STOP_TIMEOUT
+        else
+                TIMEOUT=30
+        fi
+
+        while [ $TIMEOUT -gt 0 ]
+        do
+                kill "$JVM_PID" 2>/dev/null
+                echo "Exit code returned by kill is $?"
+                isRunningPid "$JVM_PID"
+                if [ $? -eq 0 ]; then
+                        break
+                fi
+                sleep 5
+                let TIMEOUT=$TIMEOUT-5
+                echo "Value of TIMEOUT is $TIMEOUT"
+        done
+
+        if [ $TIMEOUT -le 0 ]; then
+                #kill -9 $JVM_PID 2>/dev/null
+                echo "JVM did not stop in limit."
+                exit 251
+        fi
+}
+
+doKill() {
+        isRunningJvm "${JVM_SID}"
+        if [ $? -eq 1 ]; then
+                die "JVM ${JVM_SID} not found"
+        fi
+        kill -9 "${JVM_PID}"
+} 
+
+doStatus() {
+        isRunningJvm "${JVM_SID}"
+        if [ $? -eq 1 ]; then
+                echo "JVM ${JVM_SID} not found"
+                exit 1
+        else
+                echo "JVM ${JVM_SID} is running with pid ${JVM_PID}"
+                exit 0
+        fi
+}
+
+function isRunningJvm() {
+        getJvmPid "$1"
+        if [ "x${JVM_PID}" = "x" ]; then
+                return 1
+        else
+                return 0
+        fi
+}
+
+
+function isRunningPid() {
+        ps -p "$1" >/dev/null 2>/dev/null || return 0
+        return 1
+}
+
+function getJvmPid() {
+        JVM_PID=$($JAVA_HOME/bin/jps -J-Xms32m -J-Xmx32m -mlv | grep "JVM_SID=${1}" | cut -f 1 -d ' ')
+        return $JVM_PID
+}
+
+case "$1" in
+        "start"|"st")
+                doStart
+                ;;
+        "stop"|"sp")
+                doStop
+                ;;
+        "kill"|"kl")
+                doKill
+                ;;
+        "status"|"ss")
+                doStatus
+                ;;
+        "restart"|"rt")
+        		doStop
+        		sleep 5
+        		doStart
+        		;;
+        *)
+                usage
+                ;;
+esac
