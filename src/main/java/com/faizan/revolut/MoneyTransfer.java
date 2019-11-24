@@ -1,6 +1,6 @@
 package com.faizan.revolut;
 
-import com.faizan.revolut.server.logic.config.RevolutConfig;
+import com.faizan.revolut.models.config.RevolutConfig;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;

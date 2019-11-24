@@ -1,4 +1,4 @@
-package com.faizan.revolut.server.logic.config;
+package com.faizan.revolut.models.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

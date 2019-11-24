@@ -3,7 +3,7 @@ package com.faizan.revolut;
 import com.faizan.revolut.fixtures.TransferDetailsFixture;
 import com.faizan.revolut.models.AccountDetails;
 import com.faizan.revolut.models.MoneyTransaction;
-import com.faizan.revolut.server.logic.config.RevolutConfig;
+import com.faizan.revolut.models.config.RevolutConfig;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.client.JerseyClientBuilder;
