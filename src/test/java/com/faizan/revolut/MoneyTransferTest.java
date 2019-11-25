@@ -1,7 +1,9 @@
 package com.faizan.revolut;
 
+import com.faizan.revolut.enums.TransactionState;
 import com.faizan.revolut.fixtures.TransferDetailsFixture;
 import com.faizan.revolut.models.AccountDetails;
+import com.faizan.revolut.models.Balance;
 import com.faizan.revolut.models.MoneyTransaction;
 import com.faizan.revolut.models.config.RevolutConfig;
 import io.dropwizard.testing.ResourceHelpers;
@@ -52,6 +54,8 @@ public class MoneyTransferTest {
         MoneyTransaction transaction = response.readEntity(MoneyTransaction.class);
         Assert.assertEquals(new Long(1L), transaction.getId());
         Assert.assertEquals(BigDecimal.TEN, transaction.getAmount());
+        Assert.assertEquals(TransactionState.COMPLETED, transaction.getState());
+        Assert.assertEquals(MediaType.APPLICATION_JSON, response.getMediaType().toString());
     }
 
     @Test
@@ -59,6 +63,7 @@ public class MoneyTransferTest {
         Response response = client.target("http://localhost:8080/revolut/transaction/1").request().get();
         Assert.assertNotNull(response);
         Assert.assertEquals(400, response.getStatus());
+        Assert.assertEquals(MediaType.APPLICATION_JSON, response.getMediaType().toString());
     }
 
     @Test
@@ -66,5 +71,39 @@ public class MoneyTransferTest {
         Response response = client.target("http://localhost:8080/revolut/transaction/account/1").request().get();
         Assert.assertNotNull(response);
         Assert.assertEquals(400, response.getStatus());
+        Assert.assertEquals(MediaType.APPLICATION_JSON, response.getMediaType().toString());
+    }
+
+    @Test
+    public void getAllAccounts() {
+        Response response = client.target("http://localhost:8080/revolut/accounts").request().get();
+        Assert.assertNotNull(response);
+        Assert.assertEquals(200, response.getStatus());
+        List<AccountDetails> accounts = response.readEntity(new GenericType<List<AccountDetails>>() {
+        });
+        Assert.assertEquals(2, accounts.size());
+        Assert.assertEquals(new Long(865930402721L), accounts.get(0).getNumber());
+        Assert.assertEquals(MediaType.APPLICATION_JSON, response.getMediaType().toString());
+    }
+
+    @Test
+    public void getAccountById() {
+        Response response = client.target("http://localhost:8080/revolut/accounts/865930402721").request().get();
+        Assert.assertNotNull(response);
+        Assert.assertEquals(200, response.getStatus());
+        AccountDetails account = response.readEntity(AccountDetails.class);
+        Assert.assertEquals(new Long(865930402721L), account.getNumber());
+        Assert.assertEquals(MediaType.APPLICATION_JSON, response.getMediaType().toString());
+    }
+
+    @Test
+    public void getAccountBalance() {
+        Response response = client.target("http://localhost:8080/revolut/accounts/865930402721/balance").request()
+                .get();
+        Assert.assertNotNull(response);
+        Assert.assertEquals(200, response.getStatus());
+        Balance balance = response.readEntity(Balance.class);
+        Assert.assertEquals(BigDecimal.valueOf(100_000_000.00d), balance.getBalance());
+        Assert.assertEquals(MediaType.APPLICATION_JSON, response.getMediaType().toString());
     }
 }
