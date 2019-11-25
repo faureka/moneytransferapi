@@ -8,10 +8,9 @@ import com.faizan.revolut.models.MoneyTransaction;
 import com.faizan.revolut.models.config.RevolutConfig;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +25,14 @@ import java.util.List;
 
 public class MoneyTransferTest {
     private static final Logger logger = LoggerFactory.getLogger(MoneyTransferTest.class);
-    @Rule
-    public final DropwizardAppRule<RevolutConfig> RULE = new DropwizardAppRule<>(MoneyTransfer.class,
+    @ClassRule
+    public static final DropwizardAppRule<RevolutConfig> RULE = new DropwizardAppRule<>(MoneyTransfer.class,
             ResourceHelpers.resourceFilePath("config.yml"));
     private Client client;
 
     @Before
     public void setup() {
-        client = new JerseyClientBuilder().build();
+        client = RULE.client();
     }
 
     @Test
